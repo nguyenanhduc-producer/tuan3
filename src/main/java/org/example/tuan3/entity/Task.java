@@ -2,6 +2,7 @@ package org.example.tuan3.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.example.tuan3.enums.TaskStatus;
 
 @Entity
 @Table(name = "tasks")
@@ -14,8 +15,9 @@ public class Task {
     @Column(name = "title", nullable = false, length = 200)
     private String title;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private TaskStatus status;
 
     // Nhiều Task thuộc về 1 Project
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,6 +31,14 @@ public class Task {
 
     public String getId() {
         return id;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 
     public void setId(String id) {
@@ -51,13 +61,6 @@ public class Task {
         this.project = project;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public String getTitle() {
         return title;

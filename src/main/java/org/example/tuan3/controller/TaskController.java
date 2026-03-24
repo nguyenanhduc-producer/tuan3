@@ -3,10 +3,7 @@ package org.example.tuan3.controller;
 import org.example.tuan3.entity.Task;
 import org.example.tuan3.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +21,24 @@ public class TaskController {
     @GetMapping("/project/{projectId}")
     public List<Task> getTasksByProject(@PathVariable String projectId) {
         return taskService.getTasksByProject(projectId);
+    }
+
+    @PostMapping
+    public Task createTask(@RequestBody Task task) {
+        return taskService.createTask(task);
+    }
+
+    // Dòng 5: API Assign Task cho User
+    // Link test: PUT http://localhost:8080/api/tasks/T02/assign/U01
+    @PutMapping("/{taskId}/assign/{userId}")
+    public Task assignTask(@PathVariable String taskId, @PathVariable String userId) {
+        return taskService.assignTask(taskId, userId);
+    }
+
+    // Dòng 7: API Cập nhật trạng thái Task
+    // Link test: PUT http://localhost:8080/api/tasks/T02/status/DONE
+    @PutMapping("/{taskId}/status/{newStatus}")
+    public Task updateStatus(@PathVariable String taskId, @PathVariable org.example.tuan3.enums.TaskStatus newStatus) {
+        return taskService.updateTaskStatus(taskId, newStatus);
     }
 }
