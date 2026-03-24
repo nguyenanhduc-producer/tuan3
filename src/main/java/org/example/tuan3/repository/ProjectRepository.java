@@ -1,0 +1,9 @@
+package org.example.tuan3.repository;
+
+import org.example.tuan3.entity.Project;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ProjectRepository extends JpaRepository<Project, String> {
+}
