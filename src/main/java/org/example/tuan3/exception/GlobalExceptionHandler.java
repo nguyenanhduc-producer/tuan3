@@ -1,20 +1,29 @@
 package org.example.tuan3.exception;
 
-import org.springframework.http.HttpStatus;
+import org.example.tuan3.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
-    // Xử lý lỗi khi dữ liệu đầu vào không hợp lệ (ví dụ: ID bị trống mà lúc nãy ta viết ở UserService)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST); // Trả về lỗi 400
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    ResponseEntity<ApiResponse> handlingValidation(MethodArgumentNotValidException exception) {
+        ApiResponse apiResponse = new ApiResponse();
+
+        apiResponse.setCode(400);
+        apiResponse.setMessage(exception.getBindingResult().getFieldError().getDefaultMessage());
+
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 
-    // Xử lý tất cả các lỗi vặt khác chưa biết tên
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGeneralException(Exception ex) {
-        return new ResponseEntity<>("Có lỗi xảy ra trên hệ thống: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR); // Trả về lỗi 500
+    @ExceptionHandler(value = Exception.class)
+    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
+        ApiResponse apiResponse = new ApiResponse();
+
+        apiResponse.setCode(500);
+        apiResponse.setMessage(exception.getMessage());
+
+        return ResponseEntity.status(500).body(apiResponse);
     }
 }

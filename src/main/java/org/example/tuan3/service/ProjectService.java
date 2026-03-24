@@ -15,4 +15,8 @@ public class ProjectService {
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
+
+    public Project saveProject(Project project) {
+        return projectRepository.save(project);
+    }
 }
