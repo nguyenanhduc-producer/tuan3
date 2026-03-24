@@ -109,4 +109,5 @@ public class Task {
     public void setAssignedUser(User assignedUser) {
         this.assignedUser = assignedUser;
     }
+
 }
