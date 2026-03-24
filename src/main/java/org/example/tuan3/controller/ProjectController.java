@@ -4,6 +4,7 @@ import org.example.tuan3.dto.ApiResponse;
 import org.example.tuan3.entity.Project;
 import org.example.tuan3.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ProjectController {
 
     // 2. Tạo dự án mới
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ApiResponse<Project> createProject(@RequestBody Project project) {
         return ApiResponse.<Project>builder()
                 .code(1000)
