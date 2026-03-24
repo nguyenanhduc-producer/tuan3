@@ -1,5 +1,7 @@
 package org.example.tuan3.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.example.tuan3.dto.ApiResponse;
 import org.example.tuan3.entity.Task;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
+@Tag(name = "Quản lý Công việc", description = "Các API dùng để thêm, sửa, giao việc")
 public class TaskController {
     @Autowired
     private TaskService taskService;
@@ -39,6 +42,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @Operation(summary = "Tạo công việc mới", description = "API này dùng để tạo một Task mới và gắn vào Project")
     public ApiResponse<Task> createTask(@Valid @RequestBody Task task) {
         return ApiResponse.<Task>builder()
                 .code(1000)
@@ -48,6 +52,7 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}/assign/{userId}")
+    @Operation(summary = "Giao việc cho nhân viên", description = "Gán một User vào một Task cụ thể")
     public ApiResponse<Task> assignTask(@PathVariable String taskId, @PathVariable String userId) {
         return ApiResponse.<Task>builder()
                 .code(1000)
